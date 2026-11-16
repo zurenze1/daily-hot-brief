@@ -7,7 +7,7 @@ const [action,...args]=process.argv.slice(2),store=new Storage();await store.ini
 try{
  if(action==='setup'){
   const at=args.indexOf('--file');if(at<0||!args[at+1])throw Error('打开npm start的设置表单，或由安装AI使用：npm run setup -- --file 本人配置.json。无需使用者手填JSON。');
-  const config=normalizeConfig(JSON.parse(await fs.readFile(args[at+1],'utf8')));const old=await store.read('config.json');if(old)await store.write('config.previous.json',old);await store.write('config.json',config);console.log(JSON.stringify({ok:true,industry:config.industry,target:config.target,schedule:config.schedule,data:DATA}));
+  const config=normalizeConfig(JSON.parse(await fs.readFile(args[at+1],'utf8')));const release=await store.lock();try{const old=await store.read('config.json');if(old)await store.write('config.previous.json',old);await store.write('config.json',config);}finally{await release();}console.log(JSON.stringify({ok:true,industry:config.industry,target:config.target,schedule:config.schedule,data:DATA}));
  }else if(action==='doctor'){
   const config=await store.read('config.json');console.log(JSON.stringify({node:process.version,configured:!!config,industry:config?.industry||null,target:config?.target||null,clock:config?dayAndTime(config):null,model:modelStatus(config),data:DATA},null,2));
  }else if(action==='run'){

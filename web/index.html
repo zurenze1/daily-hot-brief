@@ -21,7 +21,7 @@
 <label class="wide">具体受众<input name="audience" required maxlength="500" placeholder="谁会关心？他们在做什么选择？"></label>
 <label class="wide">关注主题<textarea name="topics" required rows="2" placeholder="关注哪些话题，哪些不想收？"></textarea></label>
 <label class="wide">栏目与每日条数（每行“栏目名称：数量”，总数1至100）<textarea name="categories" required rows="4"></textarea><small id="quota-total">每日总数：0</small></label>
-<label>更新时间<input name="time" type="time" required value="09:00"></label><label>新闻时间范围（小时）<input name="windowHours" type="number" min="1" max="168" value="48" required></label>
+<label>每日开始生成时间（完成后更新）<input name="time" type="time" required value="09:00"></label><label>新闻时间范围（小时）<input name="windowHours" type="number" min="1" max="168" value="48" required></label>
 <label class="check wide"><input name="enabled" type="checkbox">每天自动运行（后台需运行；不足时按实际条数交付）</label>
 <label>模型方式<select name="provider"><option value="codex">本人已登录的 Codex</option><option value="command">其他AI命令行适配器</option></select></label><label>模型名称（可留空，沿用CLI默认）<input name="modelName" maxlength="100"></label>
 </div><details class="advanced"><summary>来源与高级设置（可让安装AI配置）</summary><div class="form-grid"><label class="check wide"><input name="discover" type="checkbox" checked>使用AI联网搜索行业原文</label><label class="wide">检索方向（每行一个）<textarea name="queries" rows="3"></textarea></label><label class="wide">公开RSS／Atom来源（每行一个，不能带密码或令牌）<textarea name="feeds" rows="3"></textarea></label><label>时区<input name="timezone" value="system" placeholder="system 跟随本机，或Asia/Shanghai"></label><label>其他AI可执行文件的绝对路径<input name="executable" placeholder="由安装AI核验，未配置不要填写"></label><label class="wide">适配器参数（每行一个；不要放密钥）<textarea name="args" rows="2"></textarea></label></div></details>

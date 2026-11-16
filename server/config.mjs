@@ -37,3 +37,4 @@ export function dayAndTime(config,at=new Date()){
  const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(at).map(x=>[x.type,x.value]));
  return {day:`${p.year}-${p.month}-${p.day}`,time:`${p.hour}:${p.minute}`,timezone:zone};
 }
+export function analysisBatches(config,size=10){const result=[];let categories=[],left=size;for(const c of config.categories){let remain=c.target;while(remain>0){const target=Math.min(remain,left);categories.push({...c,target});remain-=target;left-=target;if(!left){result.push({...config,categories,target:size});categories=[];left=size;}}}if(categories.length)result.push({...config,categories,target:size-left});return result;}
