@@ -1,1 +1,26 @@
-{"name":"daily-hot-brief","version":"1.0.0","private":true,"type":"module","license":"MIT","description":"A data-free, client-side daily brief reader. Import your own JSON; nothing is uploaded.","scripts":{"start":"node scripts/serve.mjs","test":"node --test test/*.test.mjs"},"engines":{"node":">=20"}}
+{
+  "name": "daily-hot-brief",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "AI-installable, configurable daily brief: collect, research, editorial angles and scheduled updates. No author's collected data.",
+  "scripts": {
+    "start": "node server/main.mjs",
+    "preview": "node scripts/serve.mjs",
+    "setup": "node scripts/cli.mjs setup",
+    "doctor": "node scripts/cli.mjs doctor",
+    "collect": "node scripts/cli.mjs run",
+    "service": "node scripts/service.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=24.21.0"
+  },
+  "dependencies": {
+    "@mozilla/readability": "0.6.0",
+    "linkedom": "0.18.15",
+    "rss-parser": "3.13.0",
+    "undici": "7.30.2"
+  }
+}

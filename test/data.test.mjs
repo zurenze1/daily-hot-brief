@@ -1,6 +1,5 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
 import {parseImport,mergeEditions,selectItems,sourceURL,validDay} from '../web/data.mjs';
 import {demoEdition} from '../web/demo.mjs';
 test('fictional example has five functional channels and is explicitly fictional',()=>{const e=parseImport(demoEdition());assert.equal(e[0].news.length,5);assert.equal(new Set(e[0].news.map(x=>x.channel)).size,5);assert.ok(e[0].news.every(x=>x.title.startsWith('虚构示例')));});
@@ -10,4 +9,3 @@ test('invalid schemas reject instead of silently converting data',()=>{for(const
 test('private and executable source URLs are never offered as links',()=>{for(const x of ['javascript:alert(1)','data:text/html,hello','file:///tmp/test','http://localhost/a','http://127.0.0.1/a','http://192.168.1.1/a','https://user:password@example.com/','https://example.com/?token=secret'])assert.equal(sourceURL(x),'');assert.equal(sourceURL('https://example.com/a?id=1'),'https://example.com/a?id=1');});
 test('whitelist omits unrelated account and workflow fields',()=>{const raw=demoEdition();raw.account={name:'fictional-private'};raw.news[0].privateNotes='fictional-private';const out=parseImport(raw);assert.ok(!JSON.stringify(out).includes('fictional-private'));});
 test('same date is replaced atomically and newest date is first',()=>{const a=demoEdition(),b={...demoEdition(),day:'2026-01-03'};const first=mergeEditions([],parseImport([a,b]));assert.equal(first[0].day,'2026-01-03');const revised={...a,news:[{channel:'ai',title:'虚构示例｜修订'}]};const next=mergeEditions(first,parseImport(revised));assert.equal(next.length,2);assert.equal(next[1].news.length,1);assert.equal(first[1].news.length,5);});
-test('reader has no upload, external fetch or persistent storage implementation',async()=>{for(const name of ['app.mjs','data.mjs','demo.mjs']){const s=await readFile(new URL('../web/'+name,import.meta.url),'utf8');assert.doesNotMatch(s,/\bfetch\s*\(|XMLHttpRequest|WebSocket|sendBeacon|localStorage|sessionStorage|indexedDB/);}const html=await readFile(new URL('../web/index.html',import.meta.url),'utf8');assert.match(html,/connect-src 'none'/);});

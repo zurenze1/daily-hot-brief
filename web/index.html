@@ -1,27 +1,30 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
-<meta name="description" content="开源的每日热点早报阅读工具。导入自己的JSON文件，按栏目、日期和关键词查看资料。">
-<title>每日热点早报 · 开源阅读工具</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
-</head>
-<body>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' https: data:; base-uri 'none'; form-action 'self'">
+<meta name="description" content="可按行业、受众与条数配置的开源AI早报。自动采集、生成观点和博主切入点，数据保存在使用者自己的电脑。">
+<title>每日热点早报 · 创作者的选题工作台</title><link rel="icon" href="icon.svg"><link rel="stylesheet" href="style.css"></head><body>
 <div class="topline"><span>DAILY / BRIEF</span><a href="https://github.com/zurenze1/daily-hot-brief" target="_blank" rel="noopener noreferrer">开源代码 ↗</a></div>
-<header class="masthead"><div><p class="eyebrow">把线索看清，把思考留住</p><h1>每日热点<span>早报</span><i></i></h1><p class="intro">你的资料，你的阅读节奏。按栏目和日期，找到值得继续追问的事。</p></div><div class="issue"><span class="small-label">当前资料</span><strong id="issue-date">尚未导入</strong><small id="issue-meta">不预置新闻 · 无需账号</small></div></header>
-<main>
-<section class="control-bar" aria-label="导入与筛选">
-<div class="import-actions"><label class="button primary" for="file-input">＋ 导入早报文件</label><input id="file-input" type="file" accept="application/json,.json" multiple><button id="demo-button" type="button" class="button subtle">体验虚构示例</button><button id="clear-button" type="button" class="button quiet" disabled>清空页面</button></div>
-<div class="filters"><label class="date-field">日期<select id="date-filter"><option value="">全部日期</option></select></label><label class="search-field"><span>搜索</span><input id="search" type="search" placeholder="标题、人物、关键词…" autocomplete="off"></label></div>
-</section>
-<div id="message" role="status" aria-live="polite"></div>
-<nav id="channels" class="channels" aria-label="新闻栏目"></nav>
-<div class="section-heading"><h2 id="section-title">全部线索</h2><span id="result-count" aria-live="polite">0 条</span></div>
-<section id="empty" class="empty"><div class="paper-mark" aria-hidden="true">早</div><p class="eyebrow">从你自己的资料开始</p><h2>这里留给你今天的发现。</h2><p>导入一份 JSON 早报，就能按人物、财经、时尚界、服装和 AI 查看。<br>文件只在当前页面读取，刷新或清空后不保留。</p><ol><li><b>01</b> 准备自己的早报</li><li><b>02</b> 导入并筛选栏目</li><li><b>03</b> 展开详情，回到原文</li></ol><button id="download-sample" class="text-link" type="button">下载虚构格式示例 ↓</button></section>
-<section id="news-list" class="news-list" aria-label="热点条目"></section>
-<p id="no-results" class="no-results" hidden>没有匹配的条目。试试其他日期、栏目或关键词。</p>
-</main>
-<footer><div><b>每日热点早报</b><span>一个阅读与整理线索的开源工具。</span></div><p>不预置已采新闻 · 不上传导入文件 · 刷新后清空<br>不包含联网采集或 AI 生成服务，资料由使用者自行提供。</p><a href="https://github.com/zurenze1/daily-hot-brief#readme" target="_blank" rel="noopener noreferrer">使用说明 ↗</a></footer>
-<script type="module" src="app.mjs"></script>
-</body></html>
+<header class="masthead"><div><p class="eyebrow" id="profile-label">为你的行业，找到值得讲的话题</p><h1>每日热点<span>早报</span><i></i></h1><p class="intro" id="profile-intro">从新闻事实到独立判断，再到你能拍的内容切口。</p></div><div class="issue"><span class="small-label">当前早报</span><strong id="issue-date">尚未生成</strong><small id="issue-meta">先设置行业、受众和每天条数</small></div></header>
+<main><section id="preview-notice" class="notice" hidden><b>这是公开功能预览。</b>完整采集、AI与日更在使用者自己的电脑运行。把上方GitHub链接交给你的AI，按安装说明配置；这里不展示作者已采集的数据。</section>
+<section class="control-bar" aria-label="运行与筛选"><div class="import-actions"><button id="run-button" class="button primary">立即采集与分析</button><button id="settings-button" class="button subtle">设置行业与日更</button><button id="cancel-button" class="button quiet" hidden>取消任务</button><button id="demo-button" class="button quiet">体验虚构示例</button></div><div class="filters"><label class="date-field">日期<select id="date-filter"><option value="">全部日期</option></select></label><label class="search-field"><span>搜索</span><input id="search" type="search" placeholder="标题、判断、切入点…" autocomplete="off"></label></div></section>
+<div id="message" role="status" aria-live="polite"></div><section id="job-panel" class="job-panel" hidden aria-label="运行进度"></section><nav id="channels" class="channels" aria-label="新闻栏目"></nav><div class="section-heading"><h2 id="section-title">今日线索</h2><span id="result-count">0 条</span></div>
+<section id="picks" class="picks" hidden aria-label="优先选题"></section>
+<section id="empty" class="empty"><div class="paper-mark" aria-hidden="true">早</div><p class="eyebrow">同一个工具，每个人有自己的关注</p><h2>先告诉它，你想为谁讲什么。</h2><p>二奢、汽车、服装、读书或其他行业，都可以自己配置。<br>设置栏目与每天条数，AI会从可核来源里寻找线索、判断和切口。</p><ol><li><b>01</b> 配置行业与模型</li><li><b>02</b> 首次采集并试跑</li><li><b>03</b> 按设定时间自动更新</li></ol><button id="empty-setup" class="text-link">开始配置 →</button></section>
+<section id="news-list" class="news-list" aria-label="热点条目"></section><p id="no-results" class="no-results" hidden>没有匹配的条目，可换栏目、日期或关键词。</p>
+<section id="edition-notes" class="edition-notes" hidden></section></main>
+<footer><div><b>每日热点早报</b><span>新闻提供线索，判断留给创作者。</span></div><p>程序开源 · 每个人自己的配置和数据<br>自动运行需保持电脑、后台与网络可用；AI使用本人的订阅额度。</p><a href="https://github.com/zurenze1/daily-hot-brief#readme" target="_blank" rel="noopener noreferrer">AI安装与使用说明 ↗</a></footer>
+<dialog id="settings-dialog" class="work-dialog"><div class="dialog-heading"><div><p class="eyebrow">YOUR BRIEF / YOUR RULES</p><h2>设置你的早报</h2></div><button class="close-dialog button quiet" aria-label="关闭设置">×</button></div>
+<p class="muted">模板只是起点，所有行业共用同一套程序。填写后可随时改赛道、栏目和数量。</p>
+<form id="settings-form"><div class="form-grid">
+<label>从模板开始<select id="preset-select"></select></label><label>行业／赛道<input name="industry" required maxlength="100" placeholder="例如：二手奢侈品包袋"></label>
+<label class="wide">账号定位<input name="positioning" maxlength="1000" placeholder="例如：站在普通消费者视角，解释价格与购买选择"></label>
+<label class="wide">具体受众<input name="audience" required maxlength="500" placeholder="谁会关心？他们在做什么选择？"></label>
+<label class="wide">关注主题<textarea name="topics" required rows="2" placeholder="关注哪些话题，哪些不想收？"></textarea></label>
+<label class="wide">栏目与每日条数（每行“栏目名称：数量”，总数1至100）<textarea name="categories" required rows="4"></textarea><small id="quota-total">每日总数：0</small></label>
+<label>更新时间<input name="time" type="time" required value="09:00"></label><label>新闻时间范围（小时）<input name="windowHours" type="number" min="1" max="168" value="48" required></label>
+<label class="check wide"><input name="enabled" type="checkbox">每天自动运行（后台需运行；不足时按实际条数交付）</label>
+<label>模型方式<select name="provider"><option value="codex">本人已登录的 Codex</option><option value="command">其他AI命令行适配器</option></select></label><label>模型名称（可留空，沿用CLI默认）<input name="modelName" maxlength="100"></label>
+</div><details class="advanced"><summary>来源与高级设置（可让安装AI配置）</summary><div class="form-grid"><label class="check wide"><input name="discover" type="checkbox" checked>使用AI联网搜索行业原文</label><label class="wide">检索方向（每行一个）<textarea name="queries" rows="3"></textarea></label><label class="wide">公开RSS／Atom来源（每行一个，不能带密码或令牌）<textarea name="feeds" rows="3"></textarea></label><label>时区<input name="timezone" value="system" placeholder="system 跟随本机，或Asia/Shanghai"></label><label>其他AI可执行文件的绝对路径<input name="executable" placeholder="由安装AI核验，未配置不要填写"></label><label class="wide">适配器参数（每行一个；不要放密钥）<textarea name="args" rows="2"></textarea></label></div></details>
+<div id="settings-message" role="status"></div><div class="form-actions"><button type="button" id="model-test" class="button subtle">测试模型连接（使用本人额度）</button><button type="submit" class="button primary">保存我的早报设置</button></div></form></dialog>
+<dialog id="edit-dialog" class="work-dialog"><div class="dialog-heading"><h2 id="edit-title">编辑思考</h2><button class="close-dialog button quiet" aria-label="关闭编辑">×</button></div><p class="muted">保存会留一份旧版本，不改原始来源与新闻事实。</p><form id="edit-form"><div id="edit-fields" class="form-grid"></div><div id="edit-message" role="status"></div><div class="form-actions"><button type="submit" class="button primary">保存编辑思考</button></div></form></dialog>
+<script type="module" src="app.mjs"></script></body></html>

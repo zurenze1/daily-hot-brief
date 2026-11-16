@@ -9,3 +9,9 @@ runtime/
 reports/
 imports/
 private/
+*.log
+config.local.json
+*.local.json
+recipient-config*.json
+credentials*
+.run.lock
