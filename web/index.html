@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="description" content="开源的每日热点早报阅读工具。导入自己的JSON文件，按栏目、日期和关键词查看资料。">
+<title>每日热点早报 · 开源阅读工具</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topline"><span>DAILY / BRIEF</span><a href="https://github.com/zurenze1/daily-hot-brief" target="_blank" rel="noopener noreferrer">开源代码 ↗</a></div>
+<header class="masthead"><div><p class="eyebrow">把线索看清，把思考留住</p><h1>每日热点<span>早报</span><i></i></h1><p class="intro">你的资料，你的阅读节奏。按栏目和日期，找到值得继续追问的事。</p></div><div class="issue"><span class="small-label">当前资料</span><strong id="issue-date">尚未导入</strong><small id="issue-meta">不预置新闻 · 无需账号</small></div></header>
+<main>
+<section class="control-bar" aria-label="导入与筛选">
+<div class="import-actions"><label class="button primary" for="file-input">＋ 导入早报文件</label><input id="file-input" type="file" accept="application/json,.json" multiple><button id="demo-button" type="button" class="button subtle">体验虚构示例</button><button id="clear-button" type="button" class="button quiet" disabled>清空页面</button></div>
+<div class="filters"><label class="date-field">日期<select id="date-filter"><option value="">全部日期</option></select></label><label class="search-field"><span>搜索</span><input id="search" type="search" placeholder="标题、人物、关键词…" autocomplete="off"></label></div>
+</section>
+<div id="message" role="status" aria-live="polite"></div>
+<nav id="channels" class="channels" aria-label="新闻栏目"></nav>
+<div class="section-heading"><h2 id="section-title">全部线索</h2><span id="result-count" aria-live="polite">0 条</span></div>
+<section id="empty" class="empty"><div class="paper-mark" aria-hidden="true">早</div><p class="eyebrow">从你自己的资料开始</p><h2>这里留给你今天的发现。</h2><p>导入一份 JSON 早报，就能按人物、财经、时尚界、服装和 AI 查看。<br>文件只在当前页面读取，刷新或清空后不保留。</p><ol><li><b>01</b> 准备自己的早报</li><li><b>02</b> 导入并筛选栏目</li><li><b>03</b> 展开详情，回到原文</li></ol><button id="download-sample" class="text-link" type="button">下载虚构格式示例 ↓</button></section>
+<section id="news-list" class="news-list" aria-label="热点条目"></section>
+<p id="no-results" class="no-results" hidden>没有匹配的条目。试试其他日期、栏目或关键词。</p>
+</main>
+<footer><div><b>每日热点早报</b><span>一个阅读与整理线索的开源工具。</span></div><p>不预置已采新闻 · 不上传导入文件 · 刷新后清空<br>不包含联网采集或 AI 生成服务，资料由使用者自行提供。</p><a href="https://github.com/zurenze1/daily-hot-brief#readme" target="_blank" rel="noopener noreferrer">使用说明 ↗</a></footer>
+<script type="module" src="app.mjs"></script>
+</body></html>

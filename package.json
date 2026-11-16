@@ -1,0 +1,1 @@
+{"name":"daily-hot-brief","version":"1.0.0","private":true,"type":"module","license":"MIT","description":"A data-free, client-side daily brief reader. Import your own JSON; nothing is uploaded.","scripts":{"start":"node scripts/serve.mjs","test":"node --test test/*.test.mjs"},"engines":{"node":">=20"}}
