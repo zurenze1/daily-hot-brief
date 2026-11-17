@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="540" viewBox="0 0 720 540" fill="none">
+  <defs>
+    <linearGradient id="back" x1="30" y1="0" x2="690" y2="540" gradientUnits="userSpaceOnUse"><stop stop-color="#EEF0FF"/><stop offset=".52" stop-color="#DDE3F7"/><stop offset="1" stop-color="#F2E9E2"/></linearGradient>
+    <linearGradient id="cover" x1="248" y1="90" x2="508" y2="430" gradientUnits="userSpaceOnUse"><stop stop-color="#6963E7"/><stop offset=".56" stop-color="#444CC9"/><stop offset="1" stop-color="#272F94"/></linearGradient>
+    <linearGradient id="paper" x1="200" y1="100" x2="510" y2="450" gradientUnits="userSpaceOnUse"><stop stop-color="#FEFDF9"/><stop offset="1" stop-color="#DCDFF0"/></linearGradient>
+    <radialGradient id="ball" cx=".28" cy=".2" r=".8"><stop stop-color="#FFE3C6"/><stop offset=".45" stop-color="#F0B08D"/><stop offset="1" stop-color="#CE7F67"/></radialGradient>
+    <radialGradient id="blueBall" cx=".27" cy=".23" r=".85"><stop stop-color="#BBBDFF"/><stop offset=".35" stop-color="#858AE4"/><stop offset="1" stop-color="#4D54B0"/></radialGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="220%"><feDropShadow dx="7" dy="24" stdDeviation="18" flood-color="#343C72" flood-opacity=".22"/></filter>
+    <filter id="blur"><feGaussianBlur stdDeviation="16"/></filter>
+    <pattern id="grain" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".5" fill="#6C77AD" opacity=".12"/><circle cx="4" cy="4" r=".45" fill="#FFF" opacity=".7"/></pattern>
+    <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" stroke="#FFF" stroke-opacity=".16" stroke-width=".6"/></pattern>
+  </defs>
+  <rect width="720" height="540" rx="18" fill="url(#back)"/>
+  <rect width="720" height="540" rx="18" fill="url(#grain)"/>
+  <path d="M0 438C178 362 375 382 720 430V540H0Z" fill="#F2F2F9" opacity=".65"/>
+  <ellipse cx="378" cy="449" rx="192" ry="24" fill="#7A82B4" opacity=".19" filter="url(#blur)"/>
+  <ellipse cx="155" cy="410" rx="66" ry="11" fill="#9F7D73" opacity=".17" filter="url(#blur)"/>
+  <g transform="translate(197 98) rotate(-12 155 170)" filter="url(#shadow)">
+    <path d="M12 9H301V348H12C5 348 0 343 0 336V21C0 14 5 9 12 9Z" fill="#B6BBD7"/>
+    <path d="M12 3H300V342H12C5 342 0 337 0 330V15C0 8 5 3 12 3Z" fill="#F8F8FA"/>
+    <path d="M14 13H298M14 18H298M14 326H298M14 332H298" stroke="#C7CADA" stroke-width="1"/>
+    <rect x="2" y="-4" width="290" height="338" rx="4" fill="url(#cover)"/>
+    <rect x="2" y="-4" width="290" height="338" rx="4" fill="url(#grid)"/>
+    <path d="M18-4V334" stroke="#242E8C" stroke-width="2" opacity=".5"/>
+    <text x="39" y="34" fill="#E3E5FF" font-family="Arial,sans-serif" font-size="9" letter-spacing="3">THE DAILY BRIEF</text>
+    <path d="M39 46H256" stroke="#EBEDFF" stroke-opacity=".5"/>
+    <text x="36" y="108" fill="#FFFDF8" font-family="Arial,sans-serif" font-size="53" font-weight="700" letter-spacing="-3">A FRESH</text>
+    <text x="36" y="158" fill="#FFFDF8" font-family="Arial,sans-serif" font-size="53" font-weight="700" letter-spacing="-3">POINT</text>
+    <text x="36" y="208" fill="#FFFDF8" font-family="Arial,sans-serif" font-size="53" font-weight="700" letter-spacing="-3">OF VIEW.</text>
+    <circle cx="218" cy="266" r="36" stroke="#D3D6FF" stroke-width=".7"/>
+    <ellipse cx="218" cy="266" rx="17" ry="36" stroke="#D3D6FF" stroke-width=".7"/>
+    <ellipse cx="218" cy="266" rx="36" ry="13" stroke="#D3D6FF" stroke-width=".7"/>
+    <path d="M182 266H254M218 230V302" stroke="#D3D6FF" stroke-width=".7"/>
+    <path d="M39 251H123M39 259H141M39 267H113M39 285H83" stroke="#B9C3FF" stroke-width="2"/>
+    <text x="39" y="315" fill="#E1E4FF" font-family="Arial,sans-serif" font-size="8" letter-spacing="1.8">LESS NOISE. MORE PERSPECTIVE.</text>
+  </g>
+  <g transform="translate(475 193) rotate(13 75 118)" filter="url(#shadow)">
+    <rect width="147" height="213" rx="3" fill="url(#paper)"/>
+    <text x="17" y="28" fill="#4B54A9" font-family="Arial,sans-serif" font-size="8" letter-spacing="2">FIELD NOTES / 01</text>
+    <path d="M17 39H129" stroke="#A8AEC8" stroke-width=".7"/>
+    <circle cx="73" cy="94" r="36" fill="#D9DDF3"/>
+    <path d="M47 112L64 82L78 97L103 67" stroke="#5159AD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M92 68L103 67L101 79" stroke="#5159AD" stroke-width="3" stroke-linecap="round"/>
+    <path d="M17 147H130M17 156H113M17 165H122M17 174H96M17 190H64" stroke="#B4B9CA" stroke-width="2"/>
+    <circle cx="125" cy="192" r="4" fill="#D69C78"/>
+  </g>
+  <circle cx="139" cy="340" r="55" fill="url(#ball)"/>
+  <circle cx="564" cy="117" r="25" fill="url(#blueBall)"/>
+  <path d="M99 164H127M113 150V178" stroke="#6971AC" stroke-width="1.4"/>
+  <circle cx="618" cy="455" r="4" stroke="#9098BE"/>
+  <path d="M52 42H87M52 42V77M668 498H633M668 498V463" stroke="#7E86B4" stroke-opacity=".5"/>
+  <text x="53" y="491" fill="#747D9B" font-family="Arial,sans-serif" font-size="9" letter-spacing="2">MADE FOR CURIOUS MINDS.</text>
+</svg>

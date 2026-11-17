@@ -9,9 +9,20 @@ async function load(){state=await api('state');online=true;demo=false;render();s
 function categoryKey(industry,c){return [industry||'',c.id,c.label].join('|');}
 function categories(){const selectedDay=$('#date-filter').value;const list=state.editions.length?state.editions.filter(e=>!selectedDay||e.day===selectedDay).flatMap(e=>(e.categories||[]).map(c=>({...c,id:categoryKey(e.industry,c)}))):(state.config?.categories||[]).map(c=>({...c,id:categoryKey(state.config.industry,c)}));return [...new Map(list.map(c=>[c.id,c])).values()];}
 function itemCategory(n){const c=n.edition.categories.find(c=>c.id===n.categoryId)||{id:n.categoryId,label:n.categoryId};return categoryKey(n.edition.industry,c);}
+function cover(n,i){
+ const frame=el('div','cover-frame'),label=n.edition.categories.find(c=>c.id===n.categoryId)?.label||n.categoryId;
+ const tone=[...String(n.categoryId)].reduce((a,c)=>a+c.codePointAt(0),0)%5;
+ const art=el('div','topic-cover theme-'+tone);art.setAttribute('aria-hidden','true');
+ art.append(el('small','','THE DAILY BRIEF / '+String(i+1).padStart(2,'0')),el('b','',label),el('span','','A DIFFERENT POINT OF VIEW'));frame.append(art);
+ if(n.imageUrl&&!/logo|favicon|avatar|default[_-]?(?:share|image)|share[_-]?default/i.test(n.imageUrl)){
+  const img=el('img','news-cover');img.src=n.imageUrl;img.loading='lazy';img.referrerPolicy='no-referrer';img.alt='来源图：'+n.title;img.onerror=()=>img.remove();frame.append(img);
+ }
+ return frame;
+}
 function selected(){const day=$('#date-filter').value,q=$('#search').value.trim().toLowerCase();return state.editions.filter(e=>!day||e.day===day).flatMap(e=>e.news.map(n=>({...n,day:e.day,edition:e}))).filter(n=>(channel==='all'||itemCategory(n)===channel)&&(!q||[n.title,n.facts,n.analysis,...Object.values(n.editorial||{}).flat()].join(' ').toLowerCase().includes(q)));}
 function renderDates(){const select=$('#date-filter'),old=select.value;select.replaceChildren();const all=el('option','','全部日期');all.value='';select.append(all);for(const e of state.editions){const o=el('option','',e.day);o.value=e.day;select.append(o);}select.value=dateInitialized&&(old===''||state.editions.some(e=>e.day===old))?old:(state.editions[0]?.day||'');dateInitialized=true;}
 function render(){
+ document.body.dataset.mode=online?'local':'preview';
  renderDates();const cfg=demo?null:state.config,latest=state.editions[0],cats=categories();if(!cats.some(c=>c.id===channel))channel='all';
  $('#profile-label').textContent=cfg?cfg.industry+' · '+cfg.audience:'为你的行业，找到值得讲的话题';$('#profile-intro').textContent=cfg?cfg.positioning||cfg.topics:'从新闻事实到独立判断，再到你能拍的内容切口。';
  $('#issue-date').textContent=latest?.day||'尚未生成';$('#issue-meta').textContent=demo?'虚构示例 · 不是新闻':latest?((latest.industry?latest.industry+' · ':'')+latest.news.length+' / '+latest.target+' 条 · '+(latest.status==='partial'?'有待补项，按实际交付':'已保存')):(cfg?'每日目标 '+cfg.target+' 条':'先设置行业、受众和每天条数');
@@ -20,7 +31,7 @@ function render(){
  const items=selected();$('#section-title').textContent=channel==='all'?'值得继续追问的线索':cats.find(c=>c.id===channel)?.label;$('#result-count').textContent=items.length+' 条';$('#empty').hidden=!!state.editions.length;$('#no-results').hidden=!state.editions.length||!!items.length;
  const picks=$('#picks');picks.replaceChildren();const preferred=items.filter(n=>n.editorial?.priority==='优先');picks.hidden=!preferred.length;if(preferred.length){picks.append(el('h3','','先看这几个切口'));for(const n of preferred){const b=el('button','pick',n.editorial.angle+' →');b.onclick=()=>{const d=document.getElementById('detail-'+n.edition.id+'-'+n.id);d.open=true;d.scrollIntoView({behavior:'smooth',block:'center'});};picks.append(b);}}
  const host=$('#news-list');host.replaceChildren();for(const [i,n] of items.entries()){
-  const card=el('article','news-card');if(n.imageUrl&&!/logo|favicon|avatar|default[_-]?(?:share|image)|share[_-]?default/i.test(n.imageUrl)){const img=el('img','news-cover');img.src=n.imageUrl;img.loading='lazy';img.referrerPolicy='no-referrer';img.alt='来源图：'+n.title;img.onerror=()=>img.remove();card.append(img);}
+  const card=el('article','news-card');card.append(cover(n,i));
   const top=el('div','card-top');top.append(el('span','category',n.edition.categories.find(c=>c.id===n.categoryId)?.label||n.categoryId),el('time','day',n.day));card.append(top,el('span','ordinal',String(i+1).padStart(2,'0')),el('h3','',n.title),el('p','summary',n.facts));
   if(n.editorial){card.append(el('span','priority',n.editorial.priority),el('p','judgement',n.editorial.judgement),el('p','angle','切入点：'+n.editorial.angle));}
   const details=el('details','detail');details.id='detail-'+n.edition.id+'-'+n.id;details.append(el('summary','','查看事实、观点与切入点'));
@@ -52,4 +63,4 @@ function openEdit(n){editing=n;const host=$('#edit-fields');host.replaceChildren
 $('#edit-form').onsubmit=async e=>{e.preventDefault();try{const editorial={};for(const k of Object.keys(labels)){const s=e.target.elements.namedItem(k).value;editorial[k]=['outline','needs'].includes(k)?s.split('\n').map(v=>v.trim()).filter(Boolean):s;}await api('editions/'+editing.day+'/news/'+editing.id,{editionId:editing.edition.id,revision:editing.edition.revision,editorial},'PATCH');$('#edit-dialog').close();await load();message('已保存新版编辑思考，旧版保留。');}catch(err){$('#edit-message').textContent=err.message;}};
 function download(n){const text=['# '+n.title,'日期：'+n.day,'\n## 新闻事实',n.facts,'\n## 分析',n.analysis,...Object.entries(labels).flatMap(([k,l])=>['\n## '+l,Array.isArray(n.editorial?.[k])?n.editorial[k].join('\n'):n.editorial?.[k]||'']), '\n## 来源',...(n.sources||[]).map(s=>s.name+' '+s.url+'\n'+s.readScope)].join('\n');const url=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'})),a=el('a');a.href=url;a.download=n.day+'-'+n.title.replace(/[\\/:*?"<>|]/g,'_').slice(0,60)+'.md';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 $('#demo-button').onclick=()=>{const d=demoEdition();demo=true;dateInitialized=false;channel='all';state={...state,editions:[{id:'fictional',day:d.day,target:5,categories:[{id:'finance',label:'财经'},{id:'people',label:'人物'},{id:'culture',label:'时尚界'},{id:'apparel',label:'服装'},{id:'ai',label:'AI'}],generatedAt:'2026-01-02T01:00:00Z',status:'complete',note:'所有人物和事件均为虚构，只演示功能。',news:d.news.map((n,i)=>({...n,id:'n'+i,categoryId:n.channel,editorial:{judgement:'虚构示例判断：从具体变化寻找受众问题。',audience:'示例受众',angle:'这个变化，会怎样影响普通人的选择？',opening:'先别急着下结论，我们看一个具体问题。',outline:['确认发生了什么','分析影响了谁','说明选择与代价'],needs:['回到真实原文核实；本条只是虚构示例'],priority:i===0?'优先':'备选',reason:'仅演示栏目与切入点'}}))}]};$('#search').value='';$('#date-filter').value='';render();message('正在体验虚构示例。你自己保存的真实早报仍在本机，刷新可返回。');};
-if(location.protocol==='file:'||location.hostname.endsWith('.github.io')){online=false;render();message('公开页面仅演示；完整版本请让你的AI按GitHub说明安装到自己的电脑。');}else{try{await load();}catch{online=false;render();message('本机后台未连接，请按GitHub说明启动服务；原有资料保留。',true);}}
+if(location.protocol==='file:'||location.hostname.endsWith('.github.io')){online=false;render();message('点击「体验虚构示例」，看看一条线索如何变成选题。');}else{try{await load();}catch{online=false;render();message('本机后台未连接，请按GitHub说明启动服务；原有资料保留。',true);}}
