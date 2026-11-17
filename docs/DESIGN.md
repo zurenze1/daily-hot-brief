@@ -1,22 +1,29 @@
-# 阅读界面与视觉来源
+# 蓝白云层阅读界面
 
-2026-11-17，v2.0.2。目标是让早报像一份可继续思考的编辑刊物：首屏有清晰身份与封面，条目易读，找到具体选题后能继续展开与编辑。
+2026-11-17，v2.0.3。祖老大指定[这张Pinterest海报](https://www.pinterest.com/pin/629307747914144597/)为当前视觉方向，取代v2.0.2的立体期刊和蓝紫暖橙方案。
 
-## 实际查看的参考
+## 从参考到网页
 
-- [MotionSites](https://motionsites.ai/)：查看公开仪表盘中的Reading Library，参考主视觉与阅读内容的主次、封面的实体感；不复制其受限提示词或媒体。
-- [Pinterest / Print — online magazine redesign](https://www.pinterest.com/pin/833236368589968000/)：参考编辑栏目、封面与正文的层级，不复制作品或新闻内容。
-- [Recent / The Blue Hour Newspaper](https://recent.design/i/792e5r8-the-blue-hour-newspaper)：参考蓝色图形与浅色阅读面的关系，不把报纸的密集文字直接搬进工具。
-- [Curated](https://curated.design/)：查看其筛选与作品卡片，借鉴统一导航与清晰入口。
+实际查看了指定Pin的海报：深蓝天空、大面积柔软白云、克制的小字与空白。网页借鉴配色、云层边缘和安静的文字层级，不嵌入原海报、商标、日期或文案。
 
-开源方向同时查看了[astro-news](https://github.com/Mrahmani71/astro-news)。它采用Astro与额外构建依赖；当前工具已有可运行的原生前端、本机后台与日更，因此本次保留原架构，最小修改现有HTML、CSS和呈现代码，不迁移框架或新增依赖。
+- 首屏采用横向蓝天白云背景与白色衬线标题，云在上方和右侧，文字在较暗的蓝色区域。
+- 阅读区保持浅色底、白色卡片和海蓝控件，日期、栏目、搜索、编辑与日更沿用原功能。
+- 手机单独调整裁切与文字位置，确保白字避开明亮的云，并保留可读的底部蓝色区域。
+- 有真实新闻来源图时继续优先展示；缺图时用栏目文字与云层主题背景承接。装饰背景不对应真实新闻现场、地点或指标。
+- 复用既有原生前端与本机后台，不增加框架、外部图片服务、模型接口或自动化。
 
-## 视觉规则
+## 云图与生成说明
 
-- 背景 `#F7F8FC`，白色内容卡，墨蓝正文 `#22283F`，蓝紫强调 `#515BC7`，暖橙只作封面点缀。
-- 首屏SVG为本项目原创矢量插画：期刊、纸页与几何圆球，表达发现、思考与创作，不对应真实新闻或指标。
-- 有真实来源图时展示来源图；缺图时展示栏目主题图形。图形中的线条与圆球是装饰，不编码真实数据。
-- 动效只用于短距离入场及悬停反馈，尊重系统减少动态设置；正文不叠加持续动画。
-- 公共预览突出“体验虚构示例”和安装入口；本机完整模式保留采集、设置、取消和编辑功能。
+项目文件：`web/assets/cloud-sky.jpg`，1672×941，192,332字节。由内置imagegen生成新的装饰背景，再转为网页JPEG。参考海报只用于风格研究，不随源码上传。背景随项目发布，页面无需连接图片生成服务。
 
-视觉初检与功能检查不等于使用者已经认可审美；参考站可用状态与第三方版权不由本项目保证。
+生成提示词：
+
+> Create an original photographic website hero BACKGROUND, wide landscape 16:9, 2048 by 1152. Premium minimalist Chinese summer editorial poster mood: saturated deep cobalt / Prussian blue clear sky, approximately #073B7C at bottom and left, subtly brighter sapphire near the cloud. A single immense, extremely soft natural white cumulus cloud enters from the TOP RIGHT, extending across the upper right half with an irregular diagonal fluffy edge and realistic delicate pale blue grey cloud volume, like cotton in clear daylight. Most of left half and lower half must remain clean uninterrupted deep blue negative space for white HTML typography. The cloud should take about 40 percent of the image, never cover the lower left. Calm, refined, unhurried, understated photographic quality and finely textured natural atmosphere, no dramatic storm, no purple, no peach. Only blue sky and white cloud, absolutely NO text, NO letters, NO logos, NO watermark, NO poster frame, NO magazine, NO spheres, NO objects, NO horizon or landscape. This is decorative artwork for a news reading app, not a photo of any news event.
+
+提示目标与实际产出尺寸分别记录，以实际1672×941为准。网页字体、标题、日期及按钮均为HTML元素，可以选择、操作和随配置更新，不烧入图片。
+
+## 已验证与边界
+
+桌面1220px、手机390px初检及搜索/展开正常，整页无横向溢出；本机模式云图加载正常，JPEG返回image/jpeg；手机设置框352px且内部无横向溢出。24项业务检查通过。视觉初检和发布成功不等于使用者已认可审美；未在本轮重跑模型采集或跨系统安装。
+
+历史版本与更早的MotionSites、Pinterest杂志、Recent参考记录留在Git历史。本轮按用户最新指定参考收敛，不混搭上版风格。
